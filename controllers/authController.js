@@ -11,11 +11,11 @@ router.post('/register', async (req, res, next) => {
 	console.log(passwordHash, ' This is hashed password');
 	const userData = {}
 	userData.username = req.body.username
-	userData.password = req.body.password
+	userData.password = passwordHash
 	userData.img = req.body.img
 	userData.preferredname = req.body.preferredname
 	userData.accomplishment = req.body.accomplishment
-	userData.favoriteperson = req.body.favoritePerson
+	userData.favoritePerson = req.body.favoritePerson
 	console.log(userData, ' this is userData in registration route');
 
 	try {
@@ -41,6 +41,8 @@ router.post('/login', async (req, res, next) => {
 	try{
 		const foundUser = await User.findOne({'username': req.body.username})
 		console.log(foundUser, 'This is foundUser in login route');
+		console.log(foundUser.password, 'This is foundUser password in login');
+		console.log(req.body.password, "this is req.body passowrd in login");
 		if(foundUser) {
 			if(bcrypt.compareSync(req.body.password, foundUser.password) === true){
 				req.session.logged = true
