@@ -61,7 +61,20 @@ router.post('/login', async (req, res, next) => {
 })
 
 
+//logout
 
+router.get('/logout', async (req, res, next) => {
+	try {
+		req.session.destroy()
+		console.log(req.session, ' This is req.session in logout');
+		res.json({
+			status: 200,
+			data: 'logout successful'
+		})
+	} catch(err) {
+		next(err)
+	}
+})
 
 
 
