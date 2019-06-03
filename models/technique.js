@@ -1,9 +1,11 @@
 const mongoose = require('mongoose')
 
 const techniqueSchema = new mongoose.Schema({
-	home: String,
-	outside: String,
-	anywhere: String 
+	description: String,
+	environment: {
+		type: String,
+		enum: ['outside', 'home', 'anywhere']
+	}
 
 })
 
