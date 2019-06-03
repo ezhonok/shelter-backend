@@ -6,17 +6,24 @@ const User			= require('../models/user')
 //user creates a log
 router.post('/', async (req, res) => {
 	try {
-		console.log(req.body, 'this is req.body in log creation');
+		console.log('req.sesh.userDataId in create log');
+		console.log(req.session.userDataId);
+
+		const foundUser = await User.findById(req.session.userDataId)
+		console.log('this is found user in log creation');
+		console.log(foundUser); 
+
 		const createdLog = await Log.create(req.body)
 		console.log('this is createdLog in log creation');
 		console.log(createdLog);
-		const foundUser = await User.findById(req.session.userDataId)
-		console.log('this is found user in log creation');
-		console.log(foundUser);
+
+		
 		foundUser.log.push(createdLog)
 		await foundUser.save()
 
 		createdLog.user = foundUser
+		console.log('This is the user who created the log');
+		console.log(foundUser);
 		await createdLog.save()
 		res.json({
 			status: 200,
@@ -32,7 +39,7 @@ router.post('/', async (req, res) => {
 //user can see all their logs on "Reflect and Analyze"
 router.get('/reflection', async (req, res, next) => {
 	try {
-		const allLogs = await Log.find().populate('user')
+		const allLogs = await Log.find()
 
 		res.json({
 			status: 200,
@@ -43,7 +50,30 @@ router.get('/reflection', async (req, res, next) => {
 	}
 })
 
+//user can see good-person specific logs on "Reflect and Analyze"
+router.get('/good-person', async (req, res, next) => {
+	// console.log(req.session, "this is req.sesh in reflect and analyze");
+	try {
+		const allLogs = await Log.find()
+		const foundUser = await User.findById(req.session.userDataId).populate('log')
+		console.log("HERE IS THE FOUND USER, good-person route:");
+		console.log(foundUser);
+		console.log("all the logs:")
+		console.log(allLogs)
 
+
+		const goodPeople = foundUser.log.map(log => {
+			return log.goodPerson 
+		})
+
+		res.json({
+			status: 200,
+			data: goodPeople
+		})
+	} catch(err){
+		next(err)
+	}
+})
 
 
 
