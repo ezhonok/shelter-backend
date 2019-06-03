@@ -7,16 +7,16 @@ const userSchema = new mongoose.Schema({
 	preferredname: String,
 	accomplishment: [String],
 	favoritePerson: [String],
-	
+
 
 	//allows to see user-specific logs
-	logs: [{
+	log: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Log'
 	}],
 
 	//allows to see user-specific techniques
-	techniques: [{
+	technique: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Technique'
 	}],

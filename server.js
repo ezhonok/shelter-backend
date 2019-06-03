@@ -18,10 +18,10 @@ app.use(bodyParser.json())
 
 
 const authController = require('./controllers/authController')
-
+const logController = require('./controllers/logController')
 
 app.use('/auth', authController)
-
+app.use('/log', logController)
 
 
 
