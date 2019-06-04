@@ -118,7 +118,26 @@ router.get('/bad-situation', async (req, res, next) => {
 })
 
 
+//user can see their bad people logs
 
+router.get('/bad-person', async (req, res, next) => {
+	try {
+		const foundUser = await User.findById(req.session.userDataId).populate('log')
+		console.log("HERE IS THE FOUND USER, bad people route:");
+		console.log(foundUser);
+
+		const badPeople = foundUser.log.map(log => {
+			return log.badPerson
+		})
+
+		res.json({
+			status: 200,
+			data: badPeople
+		})
+	} catch(err){
+		next(err)
+	}
+})
 
 
 
