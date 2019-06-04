@@ -36,7 +36,9 @@ router.post('/', async (req, res) => {
 })
 
 
-//user can see all their logs on "Reflect and Analyze"
+//user can see all their logs
+
+//FIX THIS
 router.get('/reflection', async (req, res, next) => {
 	try {
 		const allLogs = await Log.find()

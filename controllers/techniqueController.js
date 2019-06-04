@@ -33,9 +33,33 @@ router.post('/', async (req, res) => {
 })
 
 
+//user can see everyone's techniques
+router.get('/all-techniques', async (req, res, next) => {
+	try {
+		const allTechniques = await Technique.find()
 
+		res.json({
+			status: 200,
+			data: allTechniques
+		})
+	} catch(err){
+		next(err)
+	}
+})
 
+//user can see their own techniques
+router.get('/all-techniques', async (req, res, next) => {
+	try {
+		const allTechniques = await Technique.find()
 
+		res.json({
+			status: 200,
+			data: allLogs
+		})
+	} catch(err){
+		next(err)
+	}
+})
 
 
 
