@@ -50,9 +50,8 @@ router.get('/reflection', async (req, res, next) => {
 	}
 })
 
-//user can see good-person specific logs on "Reflect and Analyze", "Feel Better"
+//user can see their good-person specific logs on "Reflect and Analyze", "Feel Better"
 router.get('/good-person', async (req, res, next) => {
-	// console.log(req.session, "this is req.sesh in reflect and analyze");
 	try {
 		const allLogs = await Log.find()
 		const foundUser = await User.findById(req.session.userDataId).populate('log')
@@ -75,15 +74,13 @@ router.get('/good-person', async (req, res, next) => {
 })
 
 
-
+//user can see their good-situation logs
 router.get('/good-situation', async (req, res, next) => {
-	// console.log(req.session, "this is req.sesh in reflect and analyze");
 	try {
 		const allLogs = await Log.find()
 		const foundUser = await User.findById(req.session.userDataId).populate('log')
 		console.log("HERE IS THE FOUND USER, good-ACTIVITY route:");
 		console.log(foundUser);
-		
 
 		const goodActivities = foundUser.log.map(log => {
 			return log.goodActivity 
@@ -97,6 +94,33 @@ router.get('/good-situation', async (req, res, next) => {
 		next(err)
 	}
 })
+
+
+//user can see their bad people logs
+
+router.get('/bad-situation', async (req, res, next) => {
+	try {
+		const foundUser = await User.findById(req.session.userDataId).populate('log')
+		console.log("HERE IS THE FOUND USER, bad-situation route:");
+		console.log(foundUser);
+
+		const badSituations = foundUser.log.map(log => {
+			return log.badSituation
+		})
+
+		res.json({
+			status: 200,
+			data: badSituations
+		})
+	} catch(err){
+		next(err)
+	}
+})
+
+
+
+
+
 
 
 module.exports = router
