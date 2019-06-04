@@ -38,14 +38,15 @@ router.post('/', async (req, res) => {
 
 //user can see all their logs
 
-//FIX THIS
-router.get('/reflection', async (req, res, next) => {
+router.get('/all-logs', async (req, res, next) => {
 	try {
-		const allLogs = await Log.find()
-
+		const foundUser = await User.findById(req.session.userDataId).populate('log')
+		console.log("FOUND USER logs in get route for all their logs");
+		console.log(foundUser);
+		allUserLogs = foundUser.log
 		res.json({
 			status: 200,
-			data: allLogs
+			data: allUserLogs
 		})
 	} catch(err){
 		next(err)
