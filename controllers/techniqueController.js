@@ -152,7 +152,18 @@ router.put('/:id', async (req, res) => {
 	}
 })
 
-
+//user can delete their techniques
+router.delete('/:id', async (req, res) => {
+	try {
+		const deletedTechnique = await Technique.findByIdAndRemove(req.params.id)
+		res.json({
+			status: 200,
+			data: deletedTechnique
+		})
+	} catch(err){
+		res.send(err)
+	}
+})
 
 
 
