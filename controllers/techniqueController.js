@@ -113,4 +113,47 @@ router.get('/user-techniques-outside', async (req, res, next) => {
 })
 
 
+//user can see their own anywhere techniques
+router.get('/user-techniques-anywhere', async (req, res, next) => {
+	try {
+		const foundUser = await User.findById(req.session.userDataId).populate('technique')
+		
+		const allAnywhereTechniques = []
+		const anywhereTechniques = foundUser.technique.map(technique => {
+
+		if (technique.environment === 'anywhere') {
+			const foundTechnique = technique.description
+			allAnywhereTechniques.push(foundTechnique)
+			console.log("Found anywhere technique --->", foundTechnique);
+			// allHomeTechniques.push(foundTechnique)
+		}
+		})
+		res.json({
+			status: 200,
+			data: allAnywhereTechniques
+		})
+	} catch(err){
+		next(err)
+	}
+})
+
+
+//user can update their techniques
+router.put('/:id', async (req, res) => {
+	try {
+	console.log('hitting the put route');
+	const updatedTechnique = await Technique.findByIdAndUpdate(req.params.id, req.body, {new: true})
+	res.json({
+		status: 200,
+		data: updatedTechnique
+	})
+	} catch(err) {
+		res.send(err)
+	}
+})
+
+
+
+
+
 module.exports = router

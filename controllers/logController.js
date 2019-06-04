@@ -56,7 +56,6 @@ router.get('/all-logs', async (req, res, next) => {
 //user can see their good-person specific logs on "Reflect and Analyze", "Feel Better"
 router.get('/good-person', async (req, res, next) => {
 	try {
-		const allLogs = await Log.find()
 		const foundUser = await User.findById(req.session.userDataId).populate('log')
 		console.log("HERE IS THE FOUND USER, good-person route:");
 		console.log(foundUser);
