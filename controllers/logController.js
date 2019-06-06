@@ -41,6 +41,7 @@ router.post('/', async (req, res) => {
 router.get('/all-logs', async (req, res, next) => {
 	try {
 		const foundUser = await User.findById(req.session.userDataId).populate('log')
+		console.log(req.session);
 		console.log("FOUND USER logs in get route for all their logs");
 		console.log(foundUser);
 		allUserLogs = foundUser.log

@@ -2,6 +2,8 @@ const express 		= require('express')
 const app 			= express()
 const bodyParser 	= require('body-parser')
 const session 		= require('express-session')
+const cors 			= require('cors')
+
 
 require ('dotenv').config()
 
@@ -16,6 +18,14 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
+
+const corsOptions = {
+	origin: process.env.FRONT_END_URL,
+	credentials: true,
+	optionSuccessStatus: 200
+}
+
+app.use(cors(corsOptions))
 
 const authController = require('./controllers/authController')
 const logController = require('./controllers/logController')
