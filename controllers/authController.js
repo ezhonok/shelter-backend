@@ -35,6 +35,20 @@ router.post('/register', async (req, res, next) => {
 	}
 })
 
+//For when user info is needed
+router.get('/user-data', async (req, res, next) => {
+	try {
+		const foundUser = await User.findById(req.session.userDataId)
+		allUserData = foundUser
+		res.json({
+			status: 200,
+			data: allUserData
+		})
+	} catch(err){
+		next(err)
+	}
+})
+
 //login
 
 router.post('/login', async (req, res, next) => {
